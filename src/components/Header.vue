@@ -35,39 +35,41 @@ const showSettings = computed(
  *  2) salviamo user, pass e token in localStorage
  *  3) redirect con ?token=... (niente username/password)
  */
-async function handleSave() {
+ async function handleSave() {
   try {
-    const response = await fetch('http://localhost:1865/auth/token', {
+    const backendHost = `${window.location.hostname}:1865`; // Dinamico: ottiene l'host
+    const response = await fetch(`http://${backendHost}/auth/token`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         username: username.value,
         password: password.value,
       }),
-    })
+    });
     if (!response.ok) {
-      throw new Error('Errore nella richiesta di autenticazione')
+      throw new Error('Errore nella richiesta di autenticazione');
     }
-    const data = await response.json()
-    const accessToken = data.access_token
+    const data = await response.json();
+    const accessToken = data.access_token;
     if (!accessToken) {
-      throw new Error('Nessun token nella risposta')
+      throw new Error('Nessun token nella risposta');
     }
 
     // Salvataggio in localStorage
-    localStorage.setItem('username', username.value)
-    localStorage.setItem('password', password.value)
-    localStorage.setItem('token', accessToken)
+    localStorage.setItem('username', username.value);
+    localStorage.setItem('password', password.value);
+    localStorage.setItem('token', accessToken);
 
     // Aggiorniamo il nostro ref
-    token.value = accessToken
+    token.value = accessToken;
 
     // Redirect con token
-    window.location.href = `http://localhost:3000?token=${accessToken}`
+    window.location.href = `http://${window.location.hostname}:3000?token=${accessToken}`;
   } catch (err) {
-    console.error('Errore di login:', err)
+    console.error('Errore di login:', err);
   }
 }
+
 
 /**
  * handleLogout():
