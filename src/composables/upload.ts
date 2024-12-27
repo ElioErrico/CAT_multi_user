@@ -10,7 +10,7 @@ const { sendFile, sendMemory, sendWebsite, getAllowedMimetypes } = useRabbitHole
  * @param category The type of file who is going to ask for in the file dialog box
  */
 export function uploadContent() {
-	const upload = async (category: 'memory' | 'content' | 'web' | 'plugin', data?: File | string) => {
+	const upload = async (category: 'memory' | 'content' | 'web' | 'plugin' | 'contract', data?: File | string) => {
 		const { open: openDialog, onChange: onFileUpload } = useFileDialog()
 
 		const allowedMimetypes: string[] = []
@@ -27,6 +27,14 @@ export function uploadContent() {
 		else if (category == 'content') {
 			const mimetypes = (await getAllowedMimetypes()) ?? []
 			allowedMimetypes.push(...mimetypes)
+		}
+		else if (category === 'contract') {
+			// Aggiunge i tipi MIME per i file .doc e .docx
+			const contractMimetypes = [
+				'application/msword',
+				'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+			];
+			allowedMimetypes.push(...contractMimetypes);
 		}
 
 		if (category == 'web' && typeof data == 'string') sendWebsite(data)

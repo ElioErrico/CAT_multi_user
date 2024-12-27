@@ -44,29 +44,30 @@ onMounted(() => {
     <!-- NAVBAR START -->
     <div class="navbar-start flex items-center gap-4">
       <!-- Form di autenticazione con ID e v-model -->
-      <div class="flex items-center gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <input
           id="username-input"
           type="text"
           placeholder="Username"
-          class="input input-bordered input-sm max-w-xs"
+          class="input input-bordered input-sm w-full md:w-auto max-w-xs"
           v-model="username"
         />
         <input
           id="password-input"
           type="password"
           placeholder="Password"
-          class="input input-bordered input-sm max-w-xs"
+          class="input input-bordered input-sm w-full md:w-auto max-w-xs"
           v-model="password"
         />
         <button
           id="save-button"
-          class="btn btn-primary btn-sm"
+          class="btn btn-primary btn-sm w-full md:w-auto"
           @click="handleSave"
         >
           Save
         </button>
       </div>
+
 
       <!-- Menu hamburger (resto del codice esistente) -->
       <Menu v-slot="{ open }" as="div" class="relative inline-block rounded-md md:hidden">
@@ -122,10 +123,10 @@ onMounted(() => {
     <!-- NAVBAR CENTER -->
     <div class="navbar-center">
       <RouterLink to="/" class="shrink-0 !bg-transparent md:hidden">
-        <img
+        <!-- <img
           src="@assets/logo.svg"
           class="size-12 cursor-pointer dark:brightness-0 dark:invert"
-        />
+        /> -->
       </RouterLink>
       <ul class="menu menu-horizontal menu-md hidden gap-4 p-0 md:flex">
         <li v-if="can('READ', 'CONVERSATION') || can('LIST', 'CONVERSATION')">
