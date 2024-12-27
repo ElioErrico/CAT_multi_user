@@ -183,6 +183,21 @@ const wipeHistory = async () => {
 const scrollToBottom = () => {
 	if (route.path === '/') window.scrollTo({ behavior: 'smooth', left: 0, top: document.body.scrollHeight })
 }
+
+const handleNewContract = async () => {
+  await wipeHistory(); // Attende che wipeHistory() sia completato
+  await sendMessage('**clear**'); // Esegue il comando successivo
+  await uploadFile('contract');
+  sendMessage('**list**')
+};
+
+/**
+ * Autocompila la textarea con il testo fornito
+ */
+ const autofillTextarea = (text: string) => {
+	userMessage.value = text;
+};
+
 </script>
 
 <template>
@@ -239,6 +254,8 @@ const scrollToBottom = () => {
 		<div v-else class="grow" />
 		<div class="fixed bottom-0 left-0 flex w-full items-center justify-center bg-gradient-to-t from-base-200 px-2 py-4">
 			<div class="flex w-full max-w-screen-xl items-center gap-2 md:gap-4">
+
+				<!-- 	DROP DOWN ORIGINALE  -->
 				<div class="dropdown dropdown-top">
 					<button tabindex="0" :disabled="inputDisabled" class="btn btn-circle btn-primary shadow-lg">
 						<heroicons-bolt-solid class="size-5" />
@@ -289,6 +306,14 @@ const scrollToBottom = () => {
 							</button>
 						</li>
 						<li>
+							<button class="btn join-item w-full flex-nowrap px-2 text-left font-medium" @click="handleNewContract()">
+								<span class="rounded-lg p-1 text-warning">
+									<heroicons-pencil-solid class="size-5" />
+								</span>
+								<span class="grow">New contract</span>
+							</button>
+						</li>
+						<li>
 							<button class="btn join-item w-full flex-nowrap px-2 text-left font-medium" @click="wipeHistory()">
 								<span class="rounded-lg p-1 text-error">
 									<heroicons-trash-solid class="size-5" />
@@ -298,6 +323,61 @@ const scrollToBottom = () => {
 						</li>
 					</ul>
 				</div>
+
+				<!-- DROP DOWN AGGIUNTIVO -->
+				<div class="dropdown dropdown-top">
+				<button tabindex="0" :disabled="inputDisabled" class="btn btn-circle btn-primary shadow-lg">
+					<heroicons-clipboard-document-list-solid class="size-5" />
+				</button>
+				<ul tabindex="0" class="dropdown-content join join-vertical !left-0 z-10 mb-6 w-[30rem] p-0 [&>li>*]:bg-base-100">
+					<li>
+					<button
+						class="btn join-item flex-nowrap px-2 text-left font-medium"
+						@click="autofillTextarea('**\\list** Dammi la lista delle informazioni mancanti')">
+						<span class="rounded-lg p-1 text-primary">
+						<ph-text-align-center class="size-5" />
+						</span>
+						<span>Dammi la lista delle informazioni mancanti</span>
+					</button>
+					</li>
+					<li>
+					<button
+						class="btn join-item flex-nowrap px-2 text-left font-medium"
+						@click="autofillTextarea('**\\insert**: Inserisci le informazioni fornite nei punti: ')">
+						<span class="rounded-lg p-1 text-success">
+						<ph-text-align-center class="size-5" />
+						</span>
+						<span>Inserisci i le informazioni fornite nei punti: </span>
+					</button>
+					</li>
+					<li>
+					<button
+						class="btn join-item flex-nowrap px-2 text-left font-medium"
+						@click="autofillTextarea('**\\custom**: Modifichiamo le parti personalizzabili del contratto')">
+						<span class="rounded-lg p-1 text-warning">
+						<ph-text-align-center class="size-5" />
+						</span>
+						<span>Modifichiamo le parti personalizzabili</span>
+					</button>
+					</li>
+					<li>
+					<button
+						class="btn join-item flex-nowrap px-2 text-left font-medium"
+						@click="autofillTextarea('Analizza l’offerta e fornisci una descrizione dettagliata e completa dei servizi di consulenza, in questo testo sono contenute tutte le informazioni tecniche necessarie all’esecuzioni dei lavori, Specificare inclusioni e esclusioni. Inizia con: ‘ Il Fornitore si impegna a consegnare i seguenti beni/servizi come sotto descritti : ')">
+						<span class="rounded-lg p-1 text-warning">
+						<ph-text-align-center class="size-5" />
+						</span>
+						<span>Forniscimi il contenuto tecnico</span>
+					</button>
+					</li>
+				</ul>
+				</div>
+
+
+
+
+
+				
 				<div class="relative w-full">
 					<textarea
 						ref="textArea"
