@@ -49,6 +49,8 @@ declare global {
   const getCurrentInstance: typeof import('vue')['getCurrentInstance']
   const getCurrentScope: typeof import('vue')['getCurrentScope']
   const getErrorMessage: typeof import('./src/utils/errors')['getErrorMessage']
+  const getSavedPassword: typeof import('./src/composables/helpers')['getSavedPassword']
+  const getSavedUsername: typeof import('./src/composables/helpers')['getSavedUsername']
   const h: typeof import('vue')['h']
   const ignorableWatch: typeof import('@vueuse/core')['ignorableWatch']
   const inject: typeof import('vue')['inject']
