@@ -187,8 +187,7 @@ const scrollToBottom = () => {
 const handleNewContract = async () => {
   await wipeHistory(); // Attende che wipeHistory() sia completato
   await sendMessage('**clear**'); // Esegue il comando successivo
-  await uploadFile('contract');
-  sendMessage('**list**')
+  uploadFile('contract')
 };
 
 /**
