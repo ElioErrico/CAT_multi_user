@@ -369,6 +369,16 @@ const handleNewContract = async () => {
 						<span>Forniscimi il contenuto tecnico</span>
 					</button>
 					</li>
+					<li>
+					<button
+						class="btn join-item flex-nowrap px-2 text-left font-medium"
+						@click="autofillTextarea('**\\draft** Girami il draft')">
+						<span class="rounded-lg p-1 text-primary">
+						<ph-text-align-center class="size-5" />
+						</span>
+						<span>Inviami il draft</span>
+					</button>
+					</li>
 				</ul>
 				</div>
 

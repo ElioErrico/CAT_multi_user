@@ -119,3 +119,108 @@ export function uploadContent() {
   
 	return { upload }
   }
+
+// export function uploadContent() {
+// 	const { open: openDialog, onChange: onFileUpload } = useFileDialog()
+  
+// 	// La funzione "upload" che userai da fuori
+// 	const upload = async (
+// 	  category: 'memory' | 'content' | 'web' | 'plugin' | 'contract',
+// 	  data?: File | string
+// 	) => {
+// 	  // Prima cosa: costruisco i MIME permessi
+// 	  const allowedMimetypes: string[] = []
+  
+// 	  if (category == 'memory') {
+// 		allowedMimetypes.push(...AcceptedMemoryTypes)
+// 	  } else if (category == 'plugin') {
+// 		allowedMimetypes.push(...AcceptedPluginTypes)
+// 	  } else if (category == 'content') {
+// 		const mimetypes = (await getAllowedMimetypes()) ?? []
+// 		allowedMimetypes.push(...mimetypes)
+// 	  } else if (category === 'contract') {
+// 		// Aggiunta tipi MIME per i file .doc e .docx
+// 		allowedMimetypes.push(
+// 		  'application/msword',
+// 		  'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+// 		)
+// 	  }
+  
+// 	  // Funzione generica di invio (decisa in base a category)
+// 	  const sendContent = category == 'plugin'
+// 		? installPlugin
+// 		: category == 'memory'
+// 		? sendMemory
+// 		: sendFile
+  
+// 	  // **Solo adesso** definiamo cosa succede quando l’utente carica i file
+// 	  onFileUpload(async files => {
+// 		if (files == null) return
+  
+// 		if (category === 'contract') {
+// 		  const username = getSavedUsername()
+// 		//   const username ='elio'
+// 		  if (!username) {
+// 			alert('Per allegare un file è necessario essere loggati.')
+// 			return
+// 		  }
+  
+// 		  for (const file of files) {
+// 			// Verifica MIME
+// 			if (!allowedMimetypes.includes(file.type)) continue
+  
+// 			const lowerName = file.name.toLowerCase()
+// 			if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc')) {
+// 			  const baseName = file.name.replace(/\.(docx|doc)$/i, '')
+// 			  const newName = `${baseName}_${username}.docx`
+// 			  const fileToUpload = new File([file], newName, { type: file.type })
+// 			  await sendContent(fileToUpload)
+// 			} else {
+// 			  await sendContent(file)
+// 			}
+// 		  }
+// 		} else {
+// 		  // Logica per gli altri category
+// 		  for (const file of files) {
+// 			if (!allowedMimetypes.includes(file.type)) continue
+// 			await sendContent(file)
+// 		  }
+// 		}
+// 	  })
+  
+// 	  // Ora gestisci le varie casistiche di "upload" a partire da “data”
+// 	  if (category == 'web' && typeof data == 'string') {
+// 		// Caso di link
+// 		sendWebsite(data)
+// 	  } else if (data instanceof File && allowedMimetypes.includes(data.type)) {
+// 		// Caso in cui si passa direttamente un File
+// 		if (category === 'contract') {
+// 		  const username = getSavedUsername()
+// 		  if (!username) {
+// 			alert('Per allegare un file è necessario essere loggati.')
+// 			return
+// 		  }
+// 		  const lowerName = data.name.toLowerCase()
+// 		  if (lowerName.endsWith('.docx') || lowerName.endsWith('.doc')) {
+// 			const baseName = data.name.replace(/\.(docx|doc)$/i, '')
+// 			const newName = `${baseName}_${username}.docx`
+// 			const fileToUpload = new File([data], newName, { type: data.type })
+// 			sendContent(fileToUpload)
+// 		  } else {
+// 			sendContent(data)
+// 		  }
+// 		} else {
+// 		  sendContent(data)
+// 		}
+// 	  } else if (category != 'web' && typeof data == 'string') {
+// 		// Stringa da convertire in file
+// 		sendContent(new File([new Blob([data])], category, { type: 'text/plain' }))
+// 	  } else {
+// 		// Apri la finestra di dialogo per scegliere un file
+// 		openDialog({ accept: allowedMimetypes.join(',') })
+// 	  }
+// 	}
+  
+// 	return { upload }
+//   }
+  
